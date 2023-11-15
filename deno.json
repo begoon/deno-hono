@@ -1,7 +1,7 @@
 {
     "tasks": {
         "dev": "deno run -A --watch main.ts",
-        "docker:build": "docker build -t deno-api .",
-        "docker:run": "docker run --rm -it -p 127.0.0.1:8000:8000 deno-hono"
+        "docker:build": "docker build -t hono-api .",
+        "docker:run": "docker run --rm -it -p 127.0.0.1:8000:8000 hono-api"
     }
 }

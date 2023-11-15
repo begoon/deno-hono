@@ -42,7 +42,7 @@ app.openapi(route, (c) => {
 
 app.doc("/openapi.json", {
     openapi: "3.0.0",
-    info: { version: "1.0.0", title: "Deno/Hono/Zod API" },
+    info: { version: "1.0.1", title: "Deno/Hono/Zod API" },
 });
 
 app.use("/favicon.ico", serveStatic({ path: "./favicon.ico" }));
