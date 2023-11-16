@@ -1,8 +1,8 @@
+import { serveStatic } from "npm:@hono/node-server/serve-static";
 import { swaggerUI } from "npm:@hono/swagger-ui";
 import { OpenAPIHono, createRoute, z } from "npm:@hono/zod-openapi";
+import { HTTPException } from "npm:hono/http-exception";
 import { logger } from "npm:hono/logger";
-
-import { serveStatic } from "npm:@hono/node-server/serve-static";
 
 const GetUserSchema = z.object({
     id: z
@@ -31,7 +31,7 @@ const route = createRoute({
     },
 });
 
-const app = new OpenAPIHono();
+const app = new OpenAPIHono({ strict: false });
 
 app.use("*", logger());
 
@@ -48,7 +48,33 @@ app.doc("/openapi.json", {
 app.use("/favicon.ico", serveStatic({ path: "./favicon.ico" }));
 
 app.get("/swagger", swaggerUI({ url: "/openapi.json" }));
-app.get("/", (c) => c.redirect("/swagger"));
+app.get("/ui", (c) => c.redirect("/swagger"));
+
+app.get("/boom", (_c) => {
+    throw new Error("Boom!");
+});
+
+app.get("/error", (_c) => {
+    throw new HTTPException(410, { message: "ERROR!" });
+});
+
+app.onError((err, c) => {
+    if (err instanceof HTTPException) {
+        return err.getResponse();
+    }
+    console.error(`${err}`);
+    return c.text("custom error message", 418);
+});
+
+app.get("*", (c) => {
+    return c.stream(async (stream) => {
+        const redirect = "https://iproov.com" + c.req.path;
+        const target = await fetch(redirect);
+        if (target.body) await stream.pipe(target.body);
+    });
+});
+
+app.showRoutes();
 
 const PORT = Number(Deno.env.get("PORT")) || 9000;
 
