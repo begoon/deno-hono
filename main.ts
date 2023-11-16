@@ -67,11 +67,8 @@ app.onError((err, c) => {
 });
 
 app.get("*", (c) => {
-    return c.stream(async (stream) => {
-        const redirect = "https://iproov.com" + c.req.path;
-        const target = await fetch(redirect);
-        if (target.body) await stream.pipe(target.body);
-    });
+    const redirect = "https://iproov.com" + c.req.path;
+    return fetch(redirect);
 });
 
 app.showRoutes();
