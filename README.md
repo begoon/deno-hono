@@ -1,8 +1,8 @@
-# Hono based API hosted by Deno
+# Hono-based API hosted by Deno
 
-This is a test application of the REST API with OpenAPI/Swagger documentation.
+This is a test application of the REST API with OpenAPI/Zod/Swagger documentation.
 
-The application uses Hono as a backend and Deno runtine.
+The application uses Hono as a backend and Deno runtime.
 
 ## Requirements
 
