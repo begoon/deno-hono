@@ -9,8 +9,8 @@ env:
   GCLOUD_SERVICE_KEY: ${{secrets.GCLOUD_SERVICE_KEY}}
   # GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
   IMAGE: hono-api
-  GAR: europe-docker.pkg.dev
-  REPO_GAR: europe-docker.pkg.dev/iproov-palms-poc
+  GAR: europe-west2-docker.pkg.dev
+  REPO_GAR: europe-west2-docker.pkg.dev/iproov-palms-poc/palms
 
 jobs:
   build:
