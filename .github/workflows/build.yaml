@@ -1,0 +1,73 @@
+name: build
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+env:
+  GCLOUD_SERVICE_KEY: ${{secrets.GCLOUD_SERVICE_KEY}}
+  # GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
+  IMAGE: hono-api
+  GAR: europe-docker.pkg.dev
+  REPO_GAR: europe-docker.pkg.dev/iproov-palms-poc
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    outputs:
+      tag: ${{ steps.output-tag.outputs.tag }}
+    steps:
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{secrets.GCLOUD_SERVICE_KEY}}'
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{env.GAR}}
+          username: _json_key
+          password: '${{env.GCLOUD_SERVICE_KEY}}'
+
+      # - run: |
+      #       echo ${{secrets.GCLOUD_SERVICE_KEY}} | base64 -d | \
+      #       docker login ${{env.REPO}} --username _json_key --password-stdin
+
+      - uses: actions/checkout@v3
+
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "latest"
+      #     cache: "npm"
+      # - run: npm install
+      # - run: npm test
+        
+      - uses: denoland/setup-deno@v1
+        
+      - run: |
+          BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} \
+          VERSION=$(jq -r .version "./package.json") \
+          SHORT_SHA=$(git rev-parse --short HEAD) \
+          && \
+          echo "TAG=${BRANCH/\//-}-$VERSION-$SHORT_SHA-$(date '+%Y%m%d-%H%M%S')}" \
+          >> $GITHUB_ENV
+
+ 
+
+      - run: docker build --build-arg="TAG=$TAG" -t ${{env.IMAGE}} .
+
+      - run: docker tag ${{env.IMAGE}} ${{env.REPO_GAR}}/${{env.IMAGE}}:${{env.TAG}}
+      - run: docker push ${{env.REPO_GAR}}/${{env.IMAGE}}:${{env.TAG}}
+
+      - id: output-tag
+        run: echo "tag=${{env.TAG}}" >> $GITHUB_OUTPUT
+
+      - id: branch_tag
+        uses: thollander/actions-comment-pull-request@v2
+        if: github.event_name == 'pull_request' && github.event.pull_request.merged == false
+        with:
+          message: |
+            Docker build on `${{ env.BRANCH }}` succeeded:
+            Repository: `${{ env.REPO }}`
+            Image tag: `${{ env.TAG }}`
+          comment_tag: branch_tag
