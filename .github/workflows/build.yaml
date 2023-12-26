@@ -19,6 +19,8 @@ jobs:
       tag: ${{ steps.output-tag.outputs.tag }}
     steps:
 
+      - uses: actions/checkout@v3
+
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{secrets.GCLOUD_SERVICE_KEY}}'
@@ -33,7 +35,6 @@ jobs:
       #       echo ${{secrets.GCLOUD_SERVICE_KEY}} | base64 -d | \
       #       docker login ${{env.REPO}} --username _json_key --password-stdin
 
-      - uses: actions/checkout@v3
 
       # - uses: actions/setup-node@v3
       #   with:
