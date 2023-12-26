@@ -1,5 +1,5 @@
 {
-    "veersion": "1.0.0",
+    "version": "1.0.0",
     "tasks": {
         "dev": "deno run -A --watch main.ts",
         "docker:build": "docker build -t hono-api .",
