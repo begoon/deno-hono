@@ -42,6 +42,7 @@ jobs:
           service: hono-api
           image: ${{env.REPO_GAR}}/${{env.IMAGE}}:${{env.TAG}}
           region: europe-west2
+          skip_default_labels: true
           env_vars: |
             IMAGE=${{env.REPO_GAR}}/${{env.IMAGE}}:${{env.TAG}}
           secrets: |
