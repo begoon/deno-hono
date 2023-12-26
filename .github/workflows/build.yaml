@@ -45,5 +45,5 @@ jobs:
           env_vars: |
             IMAGE=${{env.REPO_GAR}}/${{env.IMAGE}}:${{env.TAG}}
           secrets: |
-            GCLOUD_SERVICE_KEY='${{secrets.GCLOUD_SERVICE_KEY}}'
-            /secrets/GCLOUD_SERVICE_KEY='${{secrets.GCLOUD_SERVICE_KEY}}''
+            GCLOUD_SERVICE_KEY=secret
+          # /secrets/GCLOUD_SERVICE_KEY=${{secrets.GCLOUD_SERVICE_KEY}}
