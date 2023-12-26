@@ -47,7 +47,7 @@ jobs:
         
       - run: |
           BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} \
-          VERSION=$(jq -r .version "./package.json") \
+          VERSION=$(jq -r .version "./deno.json") \
           SHORT_SHA=$(git rev-parse --short HEAD) \
           && \
           echo "TAG=${BRANCH/\//-}-$VERSION-$SHORT_SHA-$(date '+%Y%m%d-%H%M%S')}" \
