@@ -45,6 +45,7 @@ jobs:
           skip_default_labels: true
           env_vars: |
             IMAGE=${{env.REPO_GAR}}/${{env.IMAGE}}:${{env.TAG}}
+            TAG=${{env.TAG}}
           secrets: |
             SECRET_A_VAR=SECRET_A:latest
             /secrets/SECRET_A_file=SECRET_A:latest

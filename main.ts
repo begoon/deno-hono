@@ -58,6 +58,10 @@ app.get("/error", (_c) => {
     throw new HTTPException(410, { message: "ERROR!" });
 });
 
+app.get("/env", (c) => {
+    return c.json(Deno.env.toObject());
+});
+
 app.onError((err, c) => {
     if (err instanceof HTTPException) {
         return err.getResponse();
@@ -66,10 +70,13 @@ app.onError((err, c) => {
     return c.text("custom error message", 418);
 });
 
-app.get("*", (c) => {
-    const redirect = "https://iproov.com" + c.req.path;
+app.get("/iproov", (c) => {
+    const redirect = "https://iproov.com";
+    console.log("redirecting to", redirect);
     return fetch(redirect);
 });
+
+app.use("/fs/*", serveStatic({ root: "./" }));
 
 app.showRoutes();
 
