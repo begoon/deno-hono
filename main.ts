@@ -73,7 +73,7 @@ app.onError((err, c) => {
 app.use("/fs/*", serveStatic({ root: "./" }));
 
 app.get("/*", (c) => {
-    const redirect = "https://iproov.com";
+    const redirect = "https://iproov.com" + c.req.path;
     console.log("redirecting to", redirect);
     return fetch(redirect);
 });
