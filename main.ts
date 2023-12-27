@@ -70,13 +70,13 @@ app.onError((err, c) => {
     return c.text("custom error message", 418);
 });
 
-app.get("/iproov", (c) => {
+app.use("/fs/*", serveStatic({ root: "./" }));
+
+app.get("/*", (c) => {
     const redirect = "https://iproov.com";
     console.log("redirecting to", redirect);
     return fetch(redirect);
 });
-
-app.use("/fs/*", serveStatic({ root: "./" }));
 
 app.showRoutes();
 

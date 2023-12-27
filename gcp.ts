@@ -39,11 +39,10 @@ program
     .requiredOption("-r, --region <string>", "region name")
     .action(async (service, image, options) => {
         await deploy(service, image, options);
-        console.info("done");
+        process.exit(0);
     });
 
 await program.parseAsync();
-console.info("done!!!");
 
 function trace(...args: unknown[]) {
     console.log(gray(...args));
