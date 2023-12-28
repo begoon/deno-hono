@@ -7,6 +7,7 @@ USER deno
 ARG TAG=dev
 
 ADD main.ts .
+ADD deno.json .
 
 RUN deno cache main.ts
 
