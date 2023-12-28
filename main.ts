@@ -150,50 +150,44 @@ import {
 } from "https://deno.land/std@0.210.0/path/mod.ts";
 
 const FS = "/fs";
-app.route(
-    FS,
-    app.get("*", (c) => {
-        const path_ = decodeURI(c.req.path);
-        const path = resolve(join("/", path_.slice(FS.length), "/"));
-        const root = path === "/";
-        console.log("path", path);
-        const stat = Deno.statSync(path);
-        if (stat.isDirectory) {
-            const dir = Deno.readDirSync(path);
-            const files = [];
-            for (const file of dir) {
-                let stat: Deno.FileInfo & { date?: string; time?: string };
-                try {
-                    stat = Deno.statSync(resolve(join(path, file.name)));
-                    stat.date = stat.mtime?.toLocaleDateString();
-                    stat.time = stat.mtime?.toLocaleTimeString();
-                } catch (_e: unknown) {
-                    stat = {} as Deno.FileInfo;
-                }
-                const href = resolve(join(FS, path, file.name));
-                const icon = file.isDirectory ? "📁" : "📄";
-                const type = (
-                    contentType(extname(file.name)) ||
-                    "application/octet-stream"
-                ).split("; ")[0];
-                files.push({ ...file, href, stat, icon, type });
+app.get(FS + "/*", (c) => {
+    const path_ = decodeURI(c.req.path);
+    const path = resolve(join("/", path_.slice(FS.length), "/"));
+    const root = path === "/";
+    console.log("path", path);
+    const stat = Deno.statSync(path);
+    if (stat.isDirectory) {
+        const dir = Deno.readDirSync(path);
+        const files = [];
+        for (const file of dir) {
+            let stat: Deno.FileInfo & { date?: string; time?: string };
+            try {
+                stat = Deno.statSync(resolve(join(path, file.name)));
+                stat.date = stat.mtime?.toLocaleDateString();
+                stat.time = stat.mtime?.toLocaleTimeString();
+            } catch (_e: unknown) {
+                stat = {} as Deno.FileInfo;
             }
-            const parent = !root ? resolve(join(FS, path, "..")) : "";
-            return c.html(
-                template.render({ files, path, parent, version, tag })
-            );
-        } else {
+            const href = resolve(join(FS, path, file.name));
+            const icon = file.isDirectory ? "📁" : "📄";
             const type = (
-                contentType(extname(path)) || "application/octet-stream"
+                contentType(extname(file.name)) || "application/octet-stream"
             ).split("; ")[0];
-            console.log({ type, path });
-            const content = Deno.readFileSync(path);
-            return new Response(content, {
-                headers: { "content-type": type },
-            });
+            files.push({ ...file, href, stat, icon, type });
         }
-    })
-);
+        const parent = !root ? resolve(join(FS, path, "..")) : "";
+        return c.html(template.render({ files, path, parent, version, tag }));
+    } else {
+        const type = (
+            contentType(extname(path)) || "application/octet-stream"
+        ).split("; ")[0];
+        console.log({ type, path });
+        const content = Deno.readFileSync(path);
+        return new Response(content, {
+            headers: { "content-type": type },
+        });
+    }
+});
 
 // @ts-ignore deno-ts(2769)
 app.get("/swagger", swaggerUI({ url: "/openapi.json" }));
@@ -224,7 +218,7 @@ app.onError((err, c) => {
     return c.text("custom error message", 418);
 });
 
-app.get("/iproov*", (c) => {
+app.get("/*", (c) => {
     const redirect = "https://iproov.com" + c.req.path;
     console.log("redirecting to", redirect);
     return fetch(redirect);
