@@ -2,12 +2,13 @@ FROM denoland/deno
 
 WORKDIR /app
 
-# USER deno
+USER deno
 
 ARG TAG=dev
 
 ADD main.ts .
 ADD deno.json .
+ADD deno.lock .
 
 RUN deno cache main.ts
 

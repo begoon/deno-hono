@@ -69,13 +69,10 @@ app.openapi(
                     }),
             }),
             query: z.object({
-                name: z
-                    .string()
-                    .startsWith("John")
-                    .openapi({
-                        param: { name: "name", in: "query" },
-                        example: "John Doe",
-                    }),
+                name: z.string().openapi({
+                    param: { name: "name", in: "query" },
+                    example: "John Doe",
+                }),
             }),
         },
         responses: {
