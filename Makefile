@@ -35,35 +35,14 @@ last-tag:
 	2>/dev/null \
 	| jq -r '.[].tags | split(", ")[-1]' 
 
+last-tags:
+	./gcp.ts last-tags \
+	europe-west2-docker.pkg.dev/iproov-palms-poc/palms/hono-api
+
+describe:
+	./gcp.ts describe hono-api -p iproov-palms-poc -r europe-west2
+
 deploy:
-	@echo "last tag $(WHITE)$(shell make last-tag)$(NC)"
-	@test -n "$(TAG)" || (echo "TAG is not set"; exit 1)
-	@echo "image $(YELLOW)$(REPO)/$(NAME)$(NC)"
-	@echo "deploying tag $(YELLOW)$(TAG)$(NC)..."
-	@echo "ARE YOU SURE $(WHITE)[Y/N]$(NC)?"
-	@read YN && [[ $$YN =~ ^[Yy]$$ ]]
-	make deploy-action
-
-deploy-action:
-	gcloud run deploy \
-	$(NAME) \
-	--image $(REPO)/$(NAME):$(TAG) \
-	--update-env-vars TAG=$(TAG) \
-	--allow-unauthenticated \
-	--project $(PROJECT) \
-	--region $(REGION)
-
-# Black        0;30     Dark Gray     1;30
-# Red          0;31     Light Red     1;31
-# Green        0;32     Light Green   1;32
-# Brown/Orange 0;33     Yellow        1;33
-# Blue         0;34     Light Blue    1;34
-# Purple       0;35     Light Purple  1;35
-# Cyan         0;36     Light Cyan    1;36
-# Light Gray   0;37     White         1;37
-
-WHITE=\033[1;37m
-RED=\033[1;31m
-YELLOW=\033[1;33m
-NC=\033[0m
-BEEP=\007
+	./gcp.ts deploy hono-api \
+	europe-west2-docker.pkg.dev/iproov-palms-poc/palms/hono-api \
+	-p iproov-palms-poc -r europe-west2
