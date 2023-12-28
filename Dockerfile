@@ -2,7 +2,7 @@ FROM denoland/deno
 
 WORKDIR /app
 
-USER deno
+# USER deno
 
 ARG TAG=dev
 
