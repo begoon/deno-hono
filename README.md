@@ -26,6 +26,7 @@ and frontend web application.
   - [x] Streaming proxy
   - [x] Deno language server in VSCode (fmt, lint)
   - [x] Zero dependency in `node/npm/node_modules` ecosystem in development and runtime
+- [x] Experimental development tool [`gcp.ts`](https://github.com/iProov/deno-hono-api/blob/main/gcp.ts) to deploy to Cloud Run in development
 
 ## Requirements
 
