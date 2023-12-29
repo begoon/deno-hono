@@ -296,9 +296,9 @@ app.get('/messages', (c) => {
 app.openapi(
     createRoute({
         method: 'get' as RouteConfig.method,
-        path: '/steaming',
+        path: '/streaming',
         description: `
-            curl -v -X GET 'http://localhost:9000/steaming' -H 'accept: */*'`,
+            curl -v -X GET 'http://localhost:9000/streaming' -H 'accept: */*'`,
         responses: {
             200: {
                 description: 'Streaming response',
