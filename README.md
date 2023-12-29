@@ -13,7 +13,7 @@ and frontend web application.
     - [x] Built-in React/Preact `<Suspense/>` support
     - [x] Async server-side components
     - [x] Async data loading
-  - [x] Page streaming using with `Transfer-Encoding: chunked`and`X-Content-Type-Options: nosniff`
+  - [x] Page streaming using with `Transfer-Encoding: chunked` and `X-Content-Type-Options: nosniff`
   - [x] Server-Sent Events (SSE) streaming
   - [x] Non-standard REST methods
   - [x] WebSockets
