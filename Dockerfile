@@ -6,7 +6,8 @@ USER deno
 
 ARG TAG=dev
 
-ADD main.ts .
+ADD main.tsx .
+ADD stream.js .
 ADD deno.json .
 ADD deno.lock .
 
