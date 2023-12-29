@@ -21,4 +21,5 @@
     "typescript.implementationsCodeLens.enabled": false,
     "typescript.suggest.autoImports": true,
     "typescript.suggest.paths": true,
+    "editor.defaultFormatter": "denoland.vscode-deno",
 }

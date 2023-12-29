@@ -1,8 +1,22 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.5",
     "tasks": {
-        "dev": "deno run -A --watch main.ts",
+        "dev": "deno run -A --watch main.tsx",
         "docker:build": "docker build -t hono-api .",
         "docker:run": "docker run --rm -it -p 127.0.0.1:8000:8000 hono-api"
+    },
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "jsxImportSource": "npm:hono/jsx",
+        "jsxFactory": "React.createElement",
+        "jsxFragmentFactory": "React.Fragment"
+    },
+    "fmt": {
+        "useTabs": false,
+        "lineWidth": 80,
+        "indentWidth": 4,
+        "semiColons": true,
+        "singleQuote": true,
+        "proseWrap": "preserve"
     }
 }
