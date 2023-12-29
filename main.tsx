@@ -15,6 +15,7 @@ import { renderToReadableStream, Suspense } from 'npm:hono/jsx/streaming';
 import { streamSSE } from 'npm:hono/streaming';
 
 import { serveStatic } from 'npm:hono@3.11.11/deno';
+import { showRoutes } from 'npm:hono@3.11.11/dev';
 
 import { HTTPException } from 'npm:hono@3.11.11/http-exception';
 
@@ -374,6 +375,8 @@ app.get('/*', (c) => {
 });
 
 const PORT = Number(process.env.PORT) || 9000;
+
+showRoutes(app);
 
 Deno.serve({
     port: PORT,

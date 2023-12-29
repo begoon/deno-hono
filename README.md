@@ -1,8 +1,31 @@
 # Hono-based API hosted by Deno
 
-This is a test application of the REST API with OpenAPI/Zod/Swagger documentation.
+This is a test application of the REST API with OpenAPI/Swagger documentation
+and frontend web application.
 
-The application uses Hono as a backend and Deno runtime.
+## Goals
+
+- [x] [Hono](https://hono.dev) framework
+  - [x] Request/response schema validation by [Zod](https://zod.dev/)
+  - [x] OpenAPI/Swagger documentation
+  - [x] First class built-in JSX/TSX support
+  - [x] Reach server-side component (RSC) rendering and templating
+    - [x] Built-in React/Preact `<Suspense/>` support
+    - [x] Async server-side components
+    - [x] Async data loading
+  - [x] Page streaming using with `Transfer-Encoding: chunked`and`X-Content-Type-Options: nosniff`
+  - [x] Server-Sent Events (SSE) streaming
+  - [x] Non-standard REST methods
+  - [x] WebSockets
+  - [x] Error and exception handling
+  - [x] Logging and middleware
+  - [x] Static files serving
+- [x] [Deno](https://docs.deno.com/runtime/manual) runtime as hosting
+  - [x] Dockerized deployment
+  - [x] First class built-in JSX/TSX support
+  - [x] Streaming proxy
+  - [x] Deno language server in VSCode (fmt, lint)
+  - [x] Zero dependency in `node/npm/node_modules` ecosystem in development and runtime
 
 ## Requirements
 
