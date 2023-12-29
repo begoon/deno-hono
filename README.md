@@ -8,7 +8,7 @@ and frontend web application.
 - [x] [Hono](https://hono.dev) framework
   - [x] Request/response schema validation by [Zod](https://zod.dev/)
   - [x] OpenAPI/Swagger documentation
-  - [x] First class built-in JSX/TSX support
+  - [x] First-class built-in JSX/TSX support
   - [x] Reach server-side component (RSC) rendering and templating
     - [x] Built-in React/Preact `<Suspense/>` support
     - [x] Async server-side components
@@ -22,7 +22,7 @@ and frontend web application.
   - [x] Static files serving
 - [x] [Deno](https://docs.deno.com/runtime/manual) runtime as hosting
   - [x] Dockerized deployment
-  - [x] First class built-in JSX/TSX support
+  - [x] First-class built-in JSX/TSX support
   - [x] Streaming proxy
   - [x] Deno language server in VSCode (fmt, lint)
   - [x] Zero dependency in `node/npm/node_modules` ecosystem in development and runtime
