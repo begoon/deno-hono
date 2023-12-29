@@ -11,7 +11,7 @@ ADD stream.js .
 ADD deno.json .
 ADD deno.lock .
 
-RUN deno cache main.ts
+RUN deno cache main.tsx
 
 ENV TAG=$TAG
 ENV PORT=8000
