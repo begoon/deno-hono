@@ -9,7 +9,7 @@ and frontend web application.
   - [x] Request/response schema validation by [Zod](https://zod.dev/)
   - [x] OpenAPI/Swagger documentation
   - [x] First-class built-in JSX/TSX support
-  - [x] Reach server-side component (RSC) rendering and templating
+  - [x] React server-side component (RSC) rendering and templating
     - [x] Built-in React/Preact `<Suspense/>` support
     - [x] Async server-side components
     - [x] Async data loading
