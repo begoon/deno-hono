@@ -16,4 +16,4 @@ RUN deno cache main.tsx
 ENV TAG=$TAG
 ENV PORT=8000
 
-CMD ["run", "-A", "main.ts"]
+CMD ["run", "-A", "main.tsx"]
