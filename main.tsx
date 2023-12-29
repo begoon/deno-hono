@@ -25,8 +25,25 @@ const tag = process.env.TAG || 'dev';
 
 const app = new OpenAPIHono({ strict: false });
 
+app.doc('/openapi.json', {
+    openapi: '3.0.0',
+    info: { version, title: 'Deno/Hono/TSX/Zod API' },
+});
+
+// @ts-ignore deno-ts(2769)
+app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }));
+app.use('/stream.js', serveStatic({ path: './stream.js' }));
+
 // @ts-ignore deno-ts(2769)
 app.use('*', logger());
+
+app.onError((err, c) => {
+    if (err instanceof HTTPException) {
+        return c.text(err.cause as string, err.status);
+    }
+    console.error(`${err}`);
+    return c.text('custom error message', 418);
+});
 
 app.openapi(
     createRoute({
@@ -117,15 +134,6 @@ app.openapi(
         return c.json({ message: 'BOOM', id, name });
     },
 );
-
-app.doc('/openapi.json', {
-    openapi: '3.0.0',
-    info: { version, title: 'Deno/Hono/TSX/Zod API' },
-});
-
-// @ts-ignore deno-ts(2769)
-app.use('/favicon.ico', serveStatic({ path: './favicon.ico' }));
-app.use('/stream.js', serveStatic({ path: './stream.js' }));
 
 const Version: FC = () => {
     return (
@@ -248,7 +256,6 @@ app.get(FS + '/*', (c) => {
 
 // @ts-ignore deno-ts(2769)
 app.get('/swagger', swaggerUI({ url: '/openapi.json' }));
-app.get('/ui', (c) => c.redirect('/swagger'));
 
 const Loading = async () => {
     await new Promise((r) => setTimeout(r, 2000));
@@ -285,16 +292,29 @@ app.get('/messages', (c) => {
     return c.html(Messages());
 });
 
-app.get('/streaming', (c) => {
-    return c.streamText(async (stream) => {
-        await stream.writeln(`started`);
-        for (let i = 0; i < 10; i++) {
-            await new Promise((r) => setTimeout(r, 1000));
-            await stream.writeln(`${i}`);
-        }
-        await stream.writeln('done');
-    });
-});
+app.openapi(
+    createRoute({
+        method: 'get' as RouteConfig.method,
+        path: '/steaming',
+        description: `
+            curl -v -X GET 'http://localhost:9000/steaming' -H 'accept: */*'`,
+        responses: {
+            200: {
+                description: 'Streaming response',
+            },
+        },
+    }),
+    (c) => {
+        return c.streamText(async (stream) => {
+            await stream.writeln(`started`);
+            for (let i = 0; i < 10; i++) {
+                await new Promise((r) => setTimeout(r, 1000));
+                await stream.writeln(`${i}`);
+            }
+            await stream.writeln('done');
+        });
+    },
+);
 
 app.get('/loading', (c) => {
     const stream = renderToReadableStream(
@@ -327,17 +347,25 @@ app.get('/error', (_c) => {
     throw new HTTPException(410, { message: 'ERROR!' });
 });
 
-app.get('/env', (c) => {
-    return c.json(process.env);
-});
-
-app.onError((err, c) => {
-    if (err instanceof HTTPException) {
-        return c.text(err.cause as string, err.status);
-    }
-    console.error(`${err}`);
-    return c.text('custom error message', 418);
-});
+app.openapi(
+    createRoute({
+        method: 'get' as RouteConfig.method,
+        path: '/env',
+        responses: {
+            200: {
+                description: 'Environment variables',
+                content: {
+                    'application/json': {
+                        schema: z
+                            .object({})
+                            .openapi('Variable'),
+                    },
+                },
+            },
+        },
+    }),
+    (c) => c.json(process.env),
+);
 
 app.get('/*', (c) => {
     const redirect = 'https://iproov.com' + c.req.path;
