@@ -14,6 +14,7 @@
       "npm:hono": "npm:hono@3.10.0",
       "npm:hono@3.11.10": "npm:hono@3.11.10",
       "npm:hono@3.11.11": "npm:hono@3.11.11",
+      "npm:hono@3.12.0": "npm:hono@3.12.0",
       "npm:hono@^3": "npm:hono@3.11.10",
       "npm:nunjucks": "npm:nunjucks@3.2.2",
       "npm:nunjucks@3.2.2": "npm:nunjucks@3.2.2",
@@ -211,6 +212,10 @@
       },
       "hono@3.11.11": {
         "integrity": "sha512-E3Xv7LnOjg7VXiu+t+YplDEYXvkxpcTCzZ3RUFQlcNXclSME8aiQAYwWpJPT6MQRRpa4TG5RlOolqeYEDEK3wg==",
+        "dependencies": {}
+      },
+      "hono@3.12.0": {
+        "integrity": "sha512-UPEtZuLY7Wo7g0mqKWSOjLFdT8t7wJ60IYEcxKl3AQNU4u+R2QqU2fJMPmSu24C+/ag20Z8mOTQOErZzK4DMvA==",
         "dependencies": {}
       },
       "http-errors@1.6.3": {

@@ -14,12 +14,12 @@ import type { FC } from 'npm:hono/jsx';
 import { renderToReadableStream, Suspense } from 'npm:hono/jsx/streaming';
 import { streamSSE } from 'npm:hono/streaming';
 
-import { serveStatic } from 'npm:hono@3.11.11/deno';
-import { showRoutes } from 'npm:hono@3.11.11/dev';
+import { serveStatic } from 'npm:hono@3.12.0/deno';
+import { showRoutes } from 'npm:hono@3.12.0/dev';
 
-import { HTTPException } from 'npm:hono@3.11.11/http-exception';
+import { HTTPException } from 'npm:hono@3.12.0/http-exception';
 
-import { logger } from 'npm:hono@3.11.11/logger';
+import { logger } from 'npm:hono@3.12.0/logger';
 
 const version = JSON.parse(fs.readFileSync('./deno.json').toString()).version;
 const tag = process.env.TAG || 'dev';
@@ -376,7 +376,7 @@ app.get('/*', (c) => {
 
 const PORT = Number(process.env.PORT) || 9000;
 
-showRoutes(app);
+showRoutes(app, { colorize: !!Deno.env.get('K_SERVICE') });
 
 Deno.serve({
     port: PORT,
