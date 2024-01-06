@@ -1,25 +1,21 @@
-import { contentType } from 'https://deno.land/std@0.210.0/media_types/mod.ts';
+import { contentType } from 'std/media_types/content_type.ts';
 
 import fs from 'node:fs';
 import { extname, join, resolve } from 'node:path';
 import process from 'node:process';
 
-import { createRoute, OpenAPIHono, z } from 'npm:@hono/zod-openapi@0.9.5';
-import { RouteConfig } from 'npm:zod-to-openapi/5.5.0';
+import { swaggerUI } from '@hono/swagger-ui';
+import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi';
 
-import { swaggerUI } from 'npm:@hono/swagger-ui@0.2.0';
+import type { RouteConfig } from 'npm:zod-to-openapi/index.ts';
 
-import type { FC } from 'npm:hono/jsx';
-
-import { renderToReadableStream, Suspense } from 'npm:hono/jsx/streaming';
-import { streamSSE } from 'npm:hono/streaming';
-
-import { serveStatic } from 'npm:hono@3.12.0/deno';
-import { showRoutes } from 'npm:hono@3.12.0/dev';
-
-import { HTTPException } from 'npm:hono@3.12.0/http-exception';
-
-import { logger } from 'npm:hono@3.12.0/logger';
+import { serveStatic } from 'hono/deno';
+import { showRoutes } from 'hono/dev';
+import { HTTPException } from 'hono/http-exception';
+import type { FC } from 'hono/jsx';
+import { renderToReadableStream, Suspense } from 'hono/jsx/streaming';
+import { logger } from 'hono/logger';
+import { streamSSE } from 'hono/streaming';
 
 const version = JSON.parse(fs.readFileSync('./deno.json').toString()).version;
 const tag = process.env.TAG || 'dev';
@@ -350,7 +346,7 @@ app.get('/error', (_c) => {
 
 app.openapi(
     createRoute({
-        method: 'get' as RouteConfig.method,
+        method: 'get', // as RouteConfig.method,
         path: '/env',
         responses: {
             200: {
