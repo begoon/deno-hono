@@ -376,7 +376,7 @@ app.get('/*', (c) => {
 
 const PORT = Number(process.env.PORT) || 9000;
 
-showRoutes(app, { colorize: !!Deno.env.get('K_SERVICE') });
+showRoutes(app, { colorize: !Deno.env.get('K_SERVICE') });
 
 Deno.serve({
     port: PORT,
